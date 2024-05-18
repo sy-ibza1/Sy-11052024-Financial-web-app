@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predicted Share Price</title>
+    <title>Reply Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +13,11 @@
         }
         h2 {
             margin-top: 20px;
-            font-size: 24px; /* Default font size */
+            font-size: 16vw; /* 16% of the viewport width */
+            text-align: justify;
+            padding: 0 20px; /* Padding on left and right */
+            margin-left: 10%;
+            margin-right: 10%; /* Margins on left and right */
         }
         form {
             margin-top: 20px;
@@ -38,13 +42,13 @@
         /* Media query for desktop */
         @media screen and (min-width: 768px) {
             h2 {
-                font-size: 32px;
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <h2>Reply : {{ r }}</h2>
+    <h2>Reply: {{ r }}</h2>
     <form action="main" method="post">
         <input type="submit" value="Main">
     </form>
