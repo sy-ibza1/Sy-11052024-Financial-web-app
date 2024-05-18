@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        h2 {
+            margin-top: 20px;
+            font-size: 24px; /* Default font size */
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="submit"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px auto;
+            display: block;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Media query for desktop */
+        @media screen and (min-width: 768px) {
+            h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Chan_Chun_Sing_in_Singapore.jpg" alt="Chan Chun Sing in Singapore">
+    <h2>Hi, {{ r }}, how can I help you today?</h2>
+    <form action="/prediction" method="post">
+        <input type="submit" value="Predict DBS Price">
+    </form>
+    <form action="/generate_text" method="post">
+        <input type="submit" value="Generate Text">
+    </form>
+    <form action="/generate_image" method="post">
+        <input type="submit" value="Generate Image">
+    </form>
+    <form action="/end" method="post">
+        <input type="submit" value="End">
+    </form>
+</body>
+</html>
