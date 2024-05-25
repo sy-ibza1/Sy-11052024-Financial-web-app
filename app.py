@@ -2,6 +2,9 @@ from flask import Flask, render_template, request
 import google.generativeai as palm
 import replicate
 import os
+import sqlite3
+import datetime
+from flask import Markup
 
 flag = 1
 name = ""
@@ -21,6 +24,13 @@ def main():
     global flag, name
     if flag == 1:
         name = request.form.get("q")
+        current_time = datetime.datetime.now()
+        conn = sqlite3.connect("log (1).db")
+        c = conn.cursor()
+        c.execute("insert into user (name,time) values (?,?)",(name,current_time))
+        conn.commit()
+        c.close()
+        conn.close()
         flag = 0
     return render_template("main.html", r=name)
 
@@ -52,6 +62,52 @@ def image_result():
     q = request.form.get("q")
     r = replicate.run("stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf", input = {"prompt":q})
     return(render_template("image_result.html",r=r[0]))
+
+@app.route("/generate_music",methods=["GET","POST"])
+def generate_music():
+    return(render_template("generate_music.html"))
+
+@app.route("/music_result",methods=["GET","POST"])
+def music_result():
+    q = request.form.get("q")
+    r = replicate.run("declare-lab/mustango:1db0c525057769aff3b75995a89f84785f188e87afc090afaa7da7482fc1d3c4",
+    input = {"prompt":q, "duration":5})
+    return(render_template("music_result.html",r=r))
+
+@app.route("/generate_video",methods=["GET","POST"])
+def generate_video():
+    return(render_template("generate_video.html"))
+
+@app.route("/video_result",methods=["GET","POST"])
+def video_result():
+    q = request.form.get("q")
+    r = replicate.run("anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
+    input = {"prompt":q, "num_frames":20})
+    return(render_template("video_result.html",r=r))
+
+@app.route("/log",methods=["GET","POST"])
+def log():
+    conn = sqlite3.connect("log (1).db")
+    c = conn.cursor()
+    c.execute("select * from user")
+    r = ""
+    for row in c:
+        r += str(row) + "<br>"
+    print(r)
+    r = Markup(r)
+    c.close()
+    conn.close()
+    return(render_template("log.html",r=r))
+
+@app.route("/delete",methods=["GET","POST"])
+def delete():
+    conn = sqlite3.connect('log (1).db')
+    c = conn.cursor()
+    c.execute("delete from user")
+    conn.commit()
+    c.close()
+    conn.close()
+    return(render_template("delete.html"))
 
 @app.route("/end", methods=["GET", "POST"])
 def end():
